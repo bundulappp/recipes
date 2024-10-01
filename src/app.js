@@ -23,13 +23,17 @@ function element(tag, attributes = {}, children = []) {
 }
 
 function createContainer({ onShow }) {
-  const container = element('div', { class: 'container' }, [
-    element('h1', {}, ['My Recipes']),
-    element('button', { class: 'btn btn-primary', onClick: onShow }, [
-      'Show Recipes',
-    ]),
-    element('div', { id: 'recipeList' }),
-  ]);
+  const container = element(
+    'div',
+    { class: 'container d-flex flex-column align-items-center' },
+    [
+      element('h1', {}, ['My Recipes']),
+      element('button', { class: 'btn btn-primary mb-5', onClick: onShow }, [
+        'Show Recipes',
+      ]),
+      element('div', { id: 'recipeList' }),
+    ]
+  );
   return container;
 }
 
@@ -39,14 +43,13 @@ export function setupApp(root) {
   function handleShow(event) {
     isVisible = !isVisible;
     const list = event.target.parentNode.querySelector('#recipeList');
-    const recipeList = getRecipes();
-    recipeList.forEach((element) => {
-      const recipeCard = createRecipeCard(element);
-      list.appendChild(recipeCard);
-    });
-
+    list.className = 'd-flex flex-wrap justify-content-center';
     if (isVisible) {
-      const recipesList = getRecipes();
+      const recipeList = getRecipes();
+      recipeList.forEach((element) => {
+        const recipeCard = createRecipeCard(element);
+        list.appendChild(recipeCard);
+      });
     } else {
       list.innerText = '';
     }
@@ -58,8 +61,7 @@ export function setupApp(root) {
 
 export function createRecipeCard(recipe) {
   const cardContainer = document.createElement('div');
-  cardContainer.className =
-    'd-flex justify-content-center align-items-center mx-auto p-4';
+  cardContainer.className = 'mx-2 mb-5';
 
   const card = document.createElement('div');
   card.className = 'card';
